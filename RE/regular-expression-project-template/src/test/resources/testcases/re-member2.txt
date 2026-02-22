@@ -1,0 +1,8 @@
+/*
+    Specify an NFA with exactly four states that recognizes the following language 
+    over binary strings: 
+    L={ w | w contains either 11 or 00 as a substring} 
+*/
+
+
+/*Write your full name here: ...*/

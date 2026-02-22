@@ -1,0 +1,7 @@
+/*
+    Specify a DFA that recognizes the following language over binary strings: 
+    L= { w | w has length at least 3 and its third symbol is a 0 }
+*/
+
+
+/*Write your full name here: ...*/

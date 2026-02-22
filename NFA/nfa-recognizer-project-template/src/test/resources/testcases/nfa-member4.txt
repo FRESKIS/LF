@@ -1,0 +1,7 @@
+/*
+    Specify an NFA that recognizes the following language 
+    over binary strings: 
+    L= {w | w contains the substring 101 or ends with 11}. 
+*/
+
+/*Write your full name here: ...*/

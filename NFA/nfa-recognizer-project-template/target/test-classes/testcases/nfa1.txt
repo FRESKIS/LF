@@ -1,0 +1,19 @@
+/*
+    This is an example.
+    Specify an NFA with exactly three states that recognizes the following language 
+    over binary strings: 
+    L= {w | w ends with 00}. 
+*/
+
+states = {q0, q1, q2}
+transitions = {
+    (q0, 0, q1), 
+    (q0, 1, q0), 
+    (q1, 0, q2), 
+    (q1, 1, q0), 
+    (q2, 1, q0),
+    (q2, 0, q2)
+}
+ini = q0
+finals = {q2}
+

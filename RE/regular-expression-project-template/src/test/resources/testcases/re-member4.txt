@@ -1,0 +1,7 @@
+/*
+    Specify an NFA that recognizes the following language 
+    over binary strings: 
+    L= {w | w starts with 1 and has at least three 1s total}. 
+*/
+
+/*Write your full name here: ...*/

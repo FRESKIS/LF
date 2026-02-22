@@ -1,0 +1,8 @@
+/*
+    Specify an NFA with exactly four states that recognizes the following language 
+    over binary strings: 
+    L={ w | the symbol that appears three positions before the end of w is 1} 
+*/
+
+
+/*Write your full name here: ...*/

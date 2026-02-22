@@ -1,0 +1,8 @@
+/*
+    Specify an NFA with exactly three states that recognizes the following language 
+    over binary strings: 
+    L= {w | w contains the substring 01}. 
+*/
+
+
+/*Write your full name here: ...*/

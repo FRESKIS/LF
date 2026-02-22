@@ -1,0 +1,7 @@
+/*
+    Specify a DFA that recognizes the following language over binary strings: 
+	L={w | w contains an even number of 1's}
+*/
+
+
+/*Write your full name here: ...*/

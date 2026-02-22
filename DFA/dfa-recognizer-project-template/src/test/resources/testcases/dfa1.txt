@@ -1,0 +1,8 @@
+/*A simple DFA used for testing purposes*/
+states = {q0, q1}
+transitions = {
+    (q0, 1, q1), 
+    (q1, 0, q0)
+}
+ini = q0
+finals = {q1}
