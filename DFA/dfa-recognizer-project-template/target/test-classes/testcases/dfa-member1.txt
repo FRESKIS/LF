@@ -1,0 +1,7 @@
+/*
+    Specify a DFA that recognizes the following language over binary strings: 
+    L={ w | w begins with a 1 and ends with a 0 } 
+*/
+
+
+/*Write your full name here: ...*/

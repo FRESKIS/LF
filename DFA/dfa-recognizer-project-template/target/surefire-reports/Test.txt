@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: Test
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.099 s <<< FAILURE! - in Test
+testOnDefaultInput{String, String, String}[1]  Time elapsed: 0.05 s  <<< ERROR!
+java.lang.ExceptionInInitializerError
+	at Test.testOnDefaultInput(Test.java:33)
+Caused by: java.lang.UnsupportedOperationException: java.io.InvalidClassException: org.antlr.v4.runtime.atn.ATN; Could not deserialize ATN with version 3 (expected 4).
+	at Test.testOnDefaultInput(Test.java:33)
+Caused by: java.io.InvalidClassException: org.antlr.v4.runtime.atn.ATN; Could not deserialize ATN with version 3 (expected 4).
+	at Test.testOnDefaultInput(Test.java:33)
+

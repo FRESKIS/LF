@@ -1,0 +1,7 @@
+/*
+    Specify a DFA that recognizes the following language over binary strings: 
+    L= { w | w contains at least three 1s, not necessarily consecutive}
+*/
+
+
+/*Write your full name here: ...*/
