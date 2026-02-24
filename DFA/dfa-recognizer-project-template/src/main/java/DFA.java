@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,9 +12,9 @@ import java.util.List;
 public class DFA {
 
     String[] states;
-    List<trans> transitions;
+    List<trans> transitions = new ArrayList<>();
     String inicial;
-    List<String> finals;
+    List<String> finals = new ArrayList<>();
     
     /*A constructor that builds a DFA with the set of state names 
      * given as arguments. 

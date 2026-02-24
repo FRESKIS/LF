@@ -4,7 +4,7 @@
 */
 
 
-/*Write your full name here: ...*/
+/*Write your full name here: Sergi Molina Sanchez*/
 
 states = {q0, q1}
 transitions = {

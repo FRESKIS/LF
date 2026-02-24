@@ -1,8 +1,3 @@
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -15,12 +10,15 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Test {
 
     @ParameterizedTest
     @CsvSource({
-            "testcases/dfa1.txt, testcases/input1.txt, testcases/output1.txt",
+            "testcases/dfa-member4.txt, testcases/input-member4.txt, testcases/output-member4.txt",
     })   
     public void testOnDefaultInput(String dfaSpecFilePath, String inputFilePath, String outputFilePath) throws IOException, URISyntaxException {
         //Loading files

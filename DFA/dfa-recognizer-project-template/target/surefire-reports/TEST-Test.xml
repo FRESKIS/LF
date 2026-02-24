@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="Test" time="0.099" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="Test" time="0.13" tests="1" errors="0" skipped="0" failures="1">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\test-classes;C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\classes;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\sergi\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\sergi\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4\4.13.1\antlr4-4.13.1.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr-runtime\3.5.3\antlr-runtime-3.5.3.jar;C:\Users\sergi\.m2\repository\org\antlr\ST4\4.3.4\ST4-4.3.4.jar;C:\Users\sergi\.m2\repository\org\abego\treelayout\org.abego.treelayout.core\1.0.3\org.abego.treelayout.core-1.0.3.jar;C:\Users\sergi\.m2\repository\com\ibm\icu\icu4j\72.1\icu4j-72.1.jar;"/>
+    <property name="java.class.path" value="C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\test-classes;C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\classes;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\sergi\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\sergi\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4\4.9.2\antlr4-4.9.2.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4-runtime\4.9.2\antlr4-runtime-4.9.2.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr-runtime\3.5.2\antlr-runtime-3.5.2.jar;C:\Users\sergi\.m2\repository\org\antlr\ST4\4.3\ST4-4.3.jar;C:\Users\sergi\.m2\repository\org\abego\treelayout\org.abego.treelayout.core\1.0.3\org.abego.treelayout.core-1.0.3.jar;C:\Users\sergi\.m2\repository\org\glassfish\javax.json\1.0.4\javax.json-1.0.4.jar;C:\Users\sergi\.m2\repository\com\ibm\icu\icu4j\61.1\icu4j-61.1.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,10 +15,10 @@
     <property name="user.country" value="ES"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\sergi\AppData\Local\Temp\surefire1093215064637902326\surefirebooter285032384265990126.jar C:\Users\sergi\AppData\Local\Temp\surefire1093215064637902326 2026-02-23T20-40-29_787-jvmRun1 surefire5601713040997066457tmp surefire_016613586338126393522tmp"/>
+    <property name="sun.java.command" value="C:\Users\sergi\AppData\Local\Temp\surefire8975889678343006673\surefirebooter9950442284675136561.jar C:\Users\sergi\AppData\Local\Temp\surefire8975889678343006673 2026-02-24T14-29-55_716-jvmRun1 surefire1962429820654703424tmp surefire_0332004621929310605tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="Test#testOnDefaultInput"/>
-    <property name="surefire.test.class.path" value="C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\test-classes;C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\classes;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\sergi\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\sergi\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4\4.13.1\antlr4-4.13.1.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr-runtime\3.5.3\antlr-runtime-3.5.3.jar;C:\Users\sergi\.m2\repository\org\antlr\ST4\4.3.4\ST4-4.3.4.jar;C:\Users\sergi\.m2\repository\org\abego\treelayout\org.abego.treelayout.core\1.0.3\org.abego.treelayout.core-1.0.3.jar;C:\Users\sergi\.m2\repository\com\ibm\icu\icu4j\72.1\icu4j-72.1.jar;"/>
+    <property name="test" value="Test"/>
+    <property name="surefire.test.class.path" value="C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\test-classes;C:\Users\sergi\OneDrive\Escritorio\uni\LeFa\practicas\LF\DFA\dfa-recognizer-project-template\target\classes;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\sergi\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\sergi\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\sergi\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4\4.9.2\antlr4-4.9.2.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr4-runtime\4.9.2\antlr4-runtime-4.9.2.jar;C:\Users\sergi\.m2\repository\org\antlr\antlr-runtime\3.5.2\antlr-runtime-3.5.2.jar;C:\Users\sergi\.m2\repository\org\antlr\ST4\4.3\ST4-4.3.jar;C:\Users\sergi\.m2\repository\org\abego\treelayout\org.abego.treelayout.core\1.0.3\org.abego.treelayout.core-1.0.3.jar;C:\Users\sergi\.m2\repository\org\glassfish\javax.json\1.0.4\javax.json-1.0.4.jar;C:\Users\sergi\.m2\repository\com\ibm\icu\icu4j\61.1\icu4j-61.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\sergi"/>
     <property name="user.language" value="es"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\sergi\AppData\Local\Temp\surefire1093215064637902326\surefirebooter285032384265990126.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\sergi\AppData\Local\Temp\surefire8975889678343006673\surefirebooter9950442284675136561.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.1+11-39"/>
@@ -60,15 +60,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testOnDefaultInput{String, String, String}[1]" classname="Test" time="0.05">
-    <error type="java.lang.ExceptionInInitializerError">java.lang.ExceptionInInitializerError
-	at Test.testOnDefaultInput(Test.java:33)
-Caused by: java.lang.UnsupportedOperationException: java.io.InvalidClassException: org.antlr.v4.runtime.atn.ATN; Could not deserialize ATN with version 3 (expected 4).
-	at Test.testOnDefaultInput(Test.java:33)
-Caused by: java.io.InvalidClassException: org.antlr.v4.runtime.atn.ATN; Could not deserialize ATN with version 3 (expected 4).
-	at Test.testOnDefaultInput(Test.java:33)
-</error>
-    <system-err><![CDATA[ANTLR Tool version 4.9.2 used for code generation does not match the current runtime version 4.13.1
-]]></system-err>
+  <testcase name="testOnDefaultInput{String, String, String}[1]" classname="Test" time="0.087">
+    <failure message="expected: &lt;[false, false, true]&gt; but was: &lt;[true, false, true]&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <[false, false, true]> but was: <[true, false, true]>
+	at Test.testOnDefaultInput(Test.java:51)
+]]></failure>
   </testcase>
 </testsuite>
