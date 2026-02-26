@@ -1,0 +1,7 @@
+/*
+    Specify an NFA with exactly six states that recognizes the following language 
+    over binary strings: 
+    L= {w | w contains at least two zeros (not necessarily consecutive)}. 
+*/
+
+/*Write your full name here: ...*/

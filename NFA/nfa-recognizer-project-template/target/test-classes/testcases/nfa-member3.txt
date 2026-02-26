@@ -1,7 +1,7 @@
 /*
     Specify an NFA with exactly six states that recognizes the following language 
     over binary strings: 
-    L= {w ∣ w contains a 1 that is followed exactly two symbols later by a 1}
+    L= {w | w contains an even number of 0s, or contains exactly two 1s}. 
 */
 
 

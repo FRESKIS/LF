@@ -1,7 +1,7 @@
-lexer grammar CommonLExerRules; // note "lexer grammar"
+lexer grammar CommonLexerRules; // note "lexer grammar"
 
 CHAR  : (LETTER | DIGIT) ;    // match identifiers
-EPSILON: '$'; // match an epsilon transition
+EPSILON: '_'; // match an epsilon transition
 ID  : (LETTER | DIGIT)+ ;    // match identifiers
 LETTER: [a-zA-Z]+;  // match a letter
 INT : (DIGIT)+ ;    // match integers

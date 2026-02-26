@@ -1,8 +1,9 @@
 grammar NFAGrammar;
+
 import CommonLexerRules;  // includes all rules from CommonLexerRule.g4
 
 /* Beging parsing here. */
-dfa: 
+nfa: 
     states  
     transitions  
     iniState 
