@@ -3,5 +3,16 @@
     L={ w | w begins with a 1 and ends with a 0 } 
 */
 
+/*Write your full name here: Dario Alexander Plesa Plesa*/
 
-/*Write your full name here: ...*/
+states = {q0, q1, q2, q3}
+transitions = {
+    (q0, 1, q1),
+    (q0, 0, q3),
+    (q1, 1, q1),
+    (q1, 0, q2),
+    (q2, 1, q1),
+    (q2, 0, q2)
+}
+ini = q0
+finals = {q2}
