@@ -25,24 +25,12 @@ public class DFA {
 
     /*Establish the initial state  */
     public void setInitialState(String state) {
-        for (String st : this.states) {
-            if (st.equals(state)) {
-                this.inicial = st;
-                return;
-            }
-        }
-        throw new Error("El estado Inicial no existe dentro del DFA");
+        this.inicial = state;
     }
 
     /*Mark a state in the DFA as final*/
     public void addFinalState(String state) {
-        for (String st : this.states) {
-            if (st.equals(state)) {
-                this.finals.add(state);
-                return;
-            }
-        }
-        throw new Error("El estado Final no existe dentro del DFA");
+        this.finals.add(state);
     }
 
     // Method that adds a transition. 
@@ -54,9 +42,6 @@ public class DFA {
      * Otherwise it outputs false. 
      */
     public boolean accept(String input) {
-        if (input == null || input.isEmpty()) {
-            return this.finals.contains(this.inicial);
-        }
         String currentState = this.inicial;
         for (char c : input.toCharArray()) {
             boolean foundTransition = false;
