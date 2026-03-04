@@ -18,7 +18,7 @@ public class Test {
 
     @ParameterizedTest
     @CsvSource({
-            "testcases/dfa-member2.txt, testcases/input-member2.txt, testcases/output-member2.txt",
+            "testcases/dfa-member4.txt, testcases/input-member4.txt, testcases/output-member4.txt",
     })   
     public void testOnDefaultInput(String dfaSpecFilePath, String inputFilePath, String outputFilePath) throws IOException, URISyntaxException {
         //Loading files
