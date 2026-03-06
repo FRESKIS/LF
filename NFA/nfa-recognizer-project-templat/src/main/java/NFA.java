@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class NFA {
 
@@ -43,13 +44,25 @@ public class NFA {
     }
 
     public DFA NFAtoDFA(){
-        // your code goes here
+        Set<Label> labels = this.getAllLabels();
+        String new_inicial = this.inicial;
+        List<String> new_finals = new ArrayList<>();
+        String[] new_states = powerSet(this.states);
+        List<trans> new_transitions = new ArrayList<>();
+
+        // We get the initial state and all the states reachable from it through empty transitions
+        for (trans elem : this.transitions.stream().filter((x) -> x.state.equals(this.inicial) && x.input.isEmptyTransition()).toList()) {
+            new_inicial = new_inicial + ", " + elem.nextState;
+        }
+        new_inicial = "{" + new_inicial + "}";
+
+
         return null;
-     }
+    }
 
     public Set<Label> getAllLabels(){
         // your code goes here
-        return null;
+        return this.transitions.stream().filter((x) -> !x.input.isEmptyTransition()).map((x) -> x.input).collect(Collectors.toSet());
     }
 
     public class trans {
@@ -62,6 +75,32 @@ public class NFA {
             this.input = input;
             this.nextState = nextState;
         }
+    }
+
+    public static String[] powerSet(String[] states) {
+
+        int n = states.length;
+        String[] result = new String[1 << n];
+        int index = 0;
+
+        for (int i = 0; i < (1 << n); i++) {
+
+            String subset = "{";
+            boolean first = true;
+
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) != 0) {
+                    if (!first) subset += ", ";
+                    subset += states[j];
+                    first = false;
+                }
+            }
+
+            subset += "}";
+            result[index++] = subset;
+        }
+
+        return result;
     }
                     
        
