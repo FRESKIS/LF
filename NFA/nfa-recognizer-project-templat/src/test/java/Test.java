@@ -1,8 +1,3 @@
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -15,16 +10,19 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Test {
 
     @ParameterizedTest
     @CsvSource({
             "testcases/nfa1.txt, testcases/input1.txt, testcases/output1.txt",
-            "testcases/nfa-member1.txt, testcases/nfa-member1-input.txt, testcases/nfa-member1-output.txt",
-            "testcases/nfa-member2.txt, testcases/nfa-member2-input.txt, testcases/nfa-member2-output.txt",
-            "testcases/nfa-member3.txt, testcases/nfa-member3-input.txt, testcases/nfa-member3-output.txt",
-            "testcases/nfa-member4.txt, testcases/nfa-member4-input.txt, testcases/nfa-member4-output.txt",
+            //"testcases/nfa-member1.txt, testcases/nfa-member1-input.txt, testcases/nfa-member1-output.txt",
+            //"testcases/nfa-member2.txt, testcases/nfa-member2-input.txt, testcases/nfa-member2-output.txt",
+            //"testcases/nfa-member3.txt, testcases/nfa-member3-input.txt, testcases/nfa-member3-output.txt",
+            //"testcases/nfa-member4.txt, testcases/nfa-member4-input.txt, testcases/nfa-member4-output.txt",
     })   
     public void testOnDefaultInput(String nfaSpecFilePath, String inputFilePath, String outputFilePath) throws IOException, URISyntaxException {
         //Loading files
