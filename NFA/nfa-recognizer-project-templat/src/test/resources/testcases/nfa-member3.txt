@@ -3,6 +3,23 @@
     over binary strings: 
     L= {w | w contains an even number of 0s, or contains exactly two 1s}. 
 */
+/*Write your full name here: Brenda Puig Pulido*/
 
+states = {q0, q1, q2, q3, q4, q5}
 
-/*Write your full name here: ...*/
+transitions = {
+    (q0, _, q1), 
+    (q0, _, q3),
+    (q1, 0, q2), 
+    (q2, 0, q1),
+    (q1, 1, q1), 
+    (q3, 1, q4),
+    (q4, 1, q5),
+    (q3, 0, q3),
+    (q4, 0, q4),
+    (q5, 0, q5)
+}
+
+ini = q0
+finals = {q1, q5}
+
