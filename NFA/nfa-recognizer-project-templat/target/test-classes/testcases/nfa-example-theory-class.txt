@@ -1,0 +1,18 @@
+/*
+    Specify a DFA that recognizes the following language over binary strings: 
+    L= { ab, aba }^*
+*/
+
+states = {q0, q1, q2, q3}
+
+transitions = {
+    (q0, a, q1), 
+    (q1, b, q2), 
+    (q2, _, q0), 
+    (q2, a, q3), 
+    (q3, _, q0)
+}
+ini = q0
+finals = {q0, q2, q3}
+
+/*Write your full name here: ...*/

@@ -140,6 +140,8 @@ public class NFA {
         return result;
     }
 
+    /* Recursive function to check if the state given has any epsilon transition
+       and if it does, check those states until no more epsilon transitions can be found*/
     private void checkEpsilonTransitions(List<trans> transition, Set<String> visited, String Studied_state) {
         for (trans eps : transition.stream().filter((x) -> x.state.equals(Studied_state) && x.input.isEmptyTransition()).toList()) {
             visited.add(eps.nextState);
@@ -147,6 +149,7 @@ public class NFA {
         }
     }
 
+    /* Recursive function to check for the states that are unreaachable deleting them */
     private void checkUnusedStates(List<trans> transition, String[] states, String inicial_state) {
         for (String st : states){
             if ( st.equals(inicial_state)) continue;
