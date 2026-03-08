@@ -45,46 +45,41 @@ public class NFA {
         return dfa.accept(input);
     }
 
-    public DFA NFAtoDFA(){
+    public DFA NFAtoDFA() {
         Set<Label> labels = this.getAllLabels();
-        String new_inicial = this.inicial;
-        List<String> new_finals = new ArrayList<>();
+        
+        Set<String> startSet = new TreeSet<>();
+        startSet.add(this.inicial);
+        checkEpsilonTransitions(this.transitions, startSet, this.inicial);
+        String new_inicial = String.join(" ", startSet);
         String[] new_states = powerSet(this.states);
         List<trans> new_transitions = new ArrayList<>();
 
-        // We get the initial state and all the states reachable from it through empty transitions
-        for (trans elem : this.transitions.stream().filter((x) -> x.state.equals(this.inicial) && x.input.isEmptyTransition()).toList()) {
-            new_inicial = new_inicial + " " + elem.nextState;
-        }
-
-        //we get the transitions for the new states
-        //for each new state
         for (String st : new_states) {
-            //and each possible path through each of the labels
             for (Label label : labels) {
-                Set<String> new_nextState = new TreeSet<>();
-                //we get all separated states in the new state
-                for (String state : st.split(" ")) {
-                    //and for each of them we get the states reachable through the label
-                    for (trans tr : this.transitions.stream().filter((x) -> x.state.equals(state) && x.input.equals(label)).toList()) {
-                        new_nextState.add(tr.nextState);
-                        //and we also get the states reachable from those through empty transitions
-                        checkEpsilonTransitions(this.transitions, new_nextState, tr.nextState);
+                Set<String> nextStatesSet = new TreeSet<>();
+                
+                if (!st.isEmpty()) {
+                    for (String individualState : st.split(" ")) {
+                        for (trans tr : this.transitions) {
+                            if (tr.state.equals(individualState) && tr.input.equals(label)) {
+                                nextStatesSet.add(tr.nextState);
+                                checkEpsilonTransitions(this.transitions, nextStatesSet, tr.nextState);
+                            }
+                        }
                     }
                 }
-                new_transitions.add(new trans(st, label, String.join(" ", new_nextState)));
+                String nextStateName = String.join(" ", nextStatesSet);
+                new_transitions.add(new trans(st, label, nextStateName));
             }
         }
 
-        //Now we filter all states that aren't accesible throught the main state
-        checkUnusedStates(new_transitions, new_states, new_inicial);
-
+        List<String> new_finals = new ArrayList<>();
         for (String st : new_states) {
-            if (Arrays.stream(st.split(" ")).anyMatch(x -> this.finals.contains(x))) {
+            if (!st.isEmpty() && Arrays.stream(st.split(" ")).anyMatch(x -> this.finals.contains(x))) {
                 new_finals.add(st);
             }
         }
-
 
         DFA dfa = new DFA(new_states);
         dfa.setInitialState(new_inicial);
@@ -99,7 +94,6 @@ public class NFA {
     }
 
     public Set<Label> getAllLabels(){
-        // your code goes here
         return this.transitions.stream().filter((x) -> !x.input.isEmptyTransition()).map((x) -> x.input).collect(Collectors.toSet());
     }
 
@@ -160,7 +154,5 @@ public class NFA {
                 break;
             }
         }
-    }
-                    
-       
+    }                     
 }
