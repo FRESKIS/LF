@@ -18,10 +18,10 @@ public class Test {
 
     @ParameterizedTest
     @CsvSource({
-            //"testcases/nfa-member3.txt, testcases/nfa-member3-input.txt, testcases/nfa-member3-output.txt",
+            "testcases/nfa-member3.txt, testcases/nfa-member3-input.txt, testcases/nfa-member3-output.txt",
             //"testcases/nfa1.txt, testcases/input1.txt, testcases/output1.txt",
             //"testcases/nfa-member1.txt, testcases/nfa-member1-input.txt, testcases/nfa-member1-output.txt",
-            "testcases/nfa-member2.txt, testcases/nfa-member2-input.txt, testcases/nfa-member2-output.txt",
+            //"testcases/nfa-member2.txt, testcases/nfa-member2-input.txt, testcases/nfa-member2-output.txt",
             //"testcases/nfa-member4.txt, testcases/nfa-member4-input.txt, testcases/nfa-member4-output.txt",
     })   
     public void testOnDefaultInput(String nfaSpecFilePath, String inputFilePath, String outputFilePath) throws IOException, URISyntaxException {

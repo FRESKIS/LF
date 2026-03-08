@@ -47,7 +47,6 @@ public class NFA {
 
     public DFA NFAtoDFA() {
         Set<Label> labels = this.getAllLabels();
-        
         Set<String> startSet = new TreeSet<>();
         startSet.add(this.inicial);
         checkEpsilonTransitions(this.transitions, startSet, this.inicial);
