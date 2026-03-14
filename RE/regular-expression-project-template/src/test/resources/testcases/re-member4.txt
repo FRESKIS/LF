@@ -4,6 +4,6 @@
     L= {w | w starts with 1 and has at least three 1s total}. 
 */
 
-1(1*0*)*1(1*0*)*1(1*0*)*
+1[01]*1[01]*1[01]*
 
 /*Write your full name here: Sergi Molina Sànchez*/
