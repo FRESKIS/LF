@@ -4,4 +4,6 @@
     L= {w | w contains at least two zeros (not necessarily consecutive)}. 
 */
 
-/*Write your full name here: ...*/
+[01]*0[01]*0[01]*
+
+/*Write your full name here: Brenda Puig Pulido*/
