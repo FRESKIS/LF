@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        String[] ars = new String[]{System.getProperty("user.dir") + "/RE/regular-expression-project-template/src/test/resources/testcases/re-member4.txt", System.getProperty("user.dir") + "/RE/regular-expression-project-template/src/test/resources/testcases/re-member4-input.txt"};
+        String[] ars = new String[]{System.getProperty("user.dir") + "/RE/regular-expression-project-template/src/test/resources/testcases/re-member1.txt", System.getProperty("user.dir") + "/RE/regular-expression-project-template/src/test/resources/testcases/re-member1-input.txt"};
         String REFile = ars[0];
         CharStream RESpec = CharStreams.fromFileName(REFile);
 
