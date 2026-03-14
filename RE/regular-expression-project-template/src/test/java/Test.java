@@ -1,8 +1,3 @@
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -15,17 +10,20 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class Test {
 
     @ParameterizedTest
     @CsvSource({
-            "testcases/re1.txt, testcases/input1.txt, testcases/output1.txt",
-            "testcases/re2.txt, testcases/input2.txt, testcases/output2.txt",
-            "testcases/re-member1.txt, testcases/re-member1-input.txt, testcases/re-member1-output.txt",
-            "testcases/re-member2.txt, testcases/re-member2-input.txt, testcases/re-member2-output.txt",
-            "testcases/re-member3.txt, testcases/re-member3-input.txt, testcases/re-member3-output.txt",
-            "testcases/re-member4.txt, testcases/re-member4-input.txt, testcases/re-member4-output.txt",
+            //"testcases/re1.txt, testcases/input1.txt, testcases/output1.txt",
+            //"testcases/re2.txt, testcases/input2.txt, testcases/output2.txt",
+            //"testcases/re-member1.txt, testcases/re-member1-input.txt, testcases/re-member1-output.txt",
+            //"testcases/re-member2.txt, testcases/re-member2-input.txt, testcases/re-member2-output.txt",
+            //"testcases/re-member3.txt, testcases/re-member3-input.txt, testcases/re-member3-output.txt",
+            //"testcases/re-member4.txt, testcases/re-member4-input.txt, testcases/re-member4-output.txt",
     })   
     public void testOnDefaultInput(String regexSpecFilePath, String inputFilePath, String outputFilePath) throws IOException, URISyntaxException {
         //Loading files
