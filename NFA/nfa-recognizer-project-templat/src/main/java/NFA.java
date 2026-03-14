@@ -1,157 +1,235 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class NFA {
 
-    String[] states;
-    List<trans> transitions = new ArrayList<>();
-    String inicial;
-    List<String> finals = new ArrayList<>();
-    
+    // --- Atributs Privats per gestionar l'estat ---
+    private final Set<String> states;
+    private final Set<String> finalStates;
+    private String initialState;
+
+    // Mapa principal: Estat -> (Label -> Conjunt de destins)
+    private final Map<String, Map<Label, Set<String>>> transitions;
+
+    // Mapa separat per a transicions epsilon per eficiència
+    private final Map<String, Set<String>> epsilons;
+
+    // --- Constructor ---
     public NFA(String[] states) {
-        this.states = states;
+        if (states == null || states.length == 0) {
+            throw new IllegalArgumentException("Cal almenys un estat per crear l'NFA.");
+        }
+
+        this.states = new HashSet<>(Arrays.asList(states));
+        this.finalStates = new HashSet<>();
+        this.transitions = new HashMap<>();
+        this.epsilons = new HashMap<>();
+
+        for (String s : this.states) {
+            transitions.put(s, new HashMap<>());
+            epsilons.put(s, new HashSet<>());
+        }
     }
 
+    // --- Mètodes de Configuració ---
+
     public void setInitialState(String state) {
-        this.inicial = state;
+        if (!states.contains(state)) {
+            throw new IllegalArgumentException("L'estat '" + state + "' no existeix.");
+        }
+        this.initialState = state;
     }
 
     public String getInitialState() {
-        // your code goes here
-        return this.inicial;
+        return initialState;
     }
 
     public void addFinalState(String state) {
-        this.finals.add(state);
+        if (!states.contains(state)) {
+            throw new IllegalArgumentException("L'estat '" + state + "' no existeix.");
+        }
+        finalStates.add(state);
     }
 
     // Method to add a transition to the table
     public void addTransition(String state, Character input, String nextState) {
-        this.transitions.add(new trans(state, Label.createNonEmptyLabel(input), nextState));
+        if (!states.contains(state) || !states.contains(nextState)) {
+            throw new IllegalArgumentException("Estats no vàlids.");
+        }
+        if (input == null) {
+            throw new IllegalArgumentException("Per transicions buides usa addEpsilonTransition.");
+        }
+
+        Label label = Label.createNonEmptyLabel(input);
+        transitions.get(state)
+                   .computeIfAbsent(label, k -> new HashSet<>())
+                   .add(nextState);
     }
 
     public void addEpsilonTransition(String state, String nextState) {
-        this.transitions.add(new trans(state, Label.createEmptyLabel(), nextState));
+        if (!states.contains(state) || !states.contains(nextState)) {
+            throw new IllegalArgumentException("Estats no vàlids.");
+        }
+        epsilons.get(state).add(nextState);
     }
 
-    // Outputs true if the NFA accept the input string
-    //The strategy we follow is to convert the NFA into a DFA
-    public boolean accept(String input) {
-        DFA dfa = NFAtoDFA();
-        return dfa.accept(input);
+    // --- Getters de lectura per combinar autòmats ---
+
+    public Set<String> getStates() {
+        return new HashSet<>(states);
     }
+
+    public Set<String> getFinalStates() {
+        return new HashSet<>(finalStates);
+    }
+
+    public Map<String, Map<Label, Set<String>>> getTransitions() {
+        Map<String, Map<Label, Set<String>>> copy = new HashMap<>();
+        for (Map.Entry<String, Map<Label, Set<String>>> entry : transitions.entrySet()) {
+            Map<Label, Set<String>> innerCopy = new HashMap<>();
+            for (Map.Entry<Label, Set<String>> inner : entry.getValue().entrySet()) {
+                innerCopy.put(inner.getKey(), new HashSet<>(inner.getValue()));
+            }
+            copy.put(entry.getKey(), innerCopy);
+        }
+        return copy;
+    }
+
+    public Map<String, Set<String>> getEpsilonTransitions() {
+        Map<String, Set<String>> copy = new HashMap<>();
+        for (Map.Entry<String, Set<String>> entry : epsilons.entrySet()) {
+            copy.put(entry.getKey(), new HashSet<>(entry.getValue()));
+        }
+        return copy;
+    }
+
+    // --- Lògica d'Acceptació ---
+
+    public boolean accept(String input) {
+        return NFAtoDFA().accept(input);
+    }
+
+    public Set<Label> getAllLabels() {
+        Set<Label> labels = new HashSet<>();
+        for (Map<Label, Set<String>> map : transitions.values()) {
+            labels.addAll(map.keySet());
+        }
+        return labels;
+    }
+
+    // --- CORE: Conversió NFA a DFA (Subset Construction) ---
 
     public DFA NFAtoDFA() {
-        Set<Label> labels = this.getAllLabels();
-        Set<String> startSet = new TreeSet<>();
-        startSet.add(this.inicial);
-        checkEpsilonTransitions(this.transitions, startSet, this.inicial);
-        String new_inicial = String.join(" ", startSet);
-        String[] new_states = powerSet(this.states);
-        List<trans> new_transitions = new ArrayList<>();
+        if (initialState == null) {
+            throw new IllegalStateException("Estat inicial no definit.");
+        }
 
-        for (String st : new_states) {
-            for (Label label : labels) {
-                Set<String> nextStatesSet = new TreeSet<>();
-                
-                if (!st.isEmpty()) {
-                    for (String individualState : st.split(" ")) {
-                        for (trans tr : this.transitions) {
-                            if (tr.state.equals(individualState) && tr.input.equals(label)) {
-                                nextStatesSet.add(tr.nextState);
-                                checkEpsilonTransitions(this.transitions, nextStatesSet, tr.nextState);
+        Set<Character> alphabet = new HashSet<>();
+        for (Label l : getAllLabels()) {
+            if (!l.isEmptyTransition()) {
+                alphabet.add(l.getValue());
+            }
+        }
+
+        Map<Set<String>, String> subsetsProcessed = new HashMap<>();
+        Queue<Set<String>> queue = new ArrayDeque<>();
+
+        List<String> dfaStatesList = new ArrayList<>();
+        List<String> dfaFinalsList = new ArrayList<>();
+        List<String[]> dfaTransitionsList = new ArrayList<>();
+
+        Set<String> startSubset = epsilonClosure(Collections.singleton(initialState));
+        String startName = canonName(startSubset);
+
+        subsetsProcessed.put(startSubset, startName);
+        queue.add(startSubset);
+        dfaStatesList.add(startName);
+
+        while (!queue.isEmpty()) {
+            Set<String> currentSubset = queue.poll();
+            String currentDfaName = subsetsProcessed.get(currentSubset);
+
+            if (!Collections.disjoint(currentSubset, finalStates)) {
+                dfaFinalsList.add(currentDfaName);
+            }
+
+            for (char symbol : alphabet) {
+                Set<String> moveTargets = new HashSet<>();
+                for (String nfaState : currentSubset) {
+                    Map<Label, Set<String>> transMap = transitions.get(nfaState);
+                    if (transMap != null) {
+                        for (Map.Entry<Label, Set<String>> entry : transMap.entrySet()) {
+                            Label l = entry.getKey();
+                            if (!l.isEmptyTransition() && l.getValue() == symbol) {
+                                moveTargets.addAll(entry.getValue());
                             }
                         }
                     }
                 }
-                String nextStateName = String.join(" ", nextStatesSet);
-                new_transitions.add(new trans(st, label, nextStateName));
+
+                if (!moveTargets.isEmpty()) {
+                    Set<String> nextSubset = epsilonClosure(moveTargets);
+
+                    String nextDfaName = subsetsProcessed.get(nextSubset);
+                    if (nextDfaName == null) {
+                        nextDfaName = canonName(nextSubset);
+                        subsetsProcessed.put(nextSubset, nextDfaName);
+                        queue.add(nextSubset);
+                        dfaStatesList.add(nextDfaName);
+                    }
+
+                    dfaTransitionsList.add(new String[]{currentDfaName, String.valueOf(symbol), nextDfaName});
+                }
             }
         }
 
-        List<String> new_finals = new ArrayList<>();
-        for (String st : new_states) {
-            if (!st.isEmpty() && Arrays.stream(st.split(" ")).anyMatch(x -> this.finals.contains(x))) {
-                new_finals.add(st);
-            }
+        DFA dfa = new DFA(dfaStatesList.toArray(new String[0]));
+        dfa.setInitialState(startName);
+
+        for (String f : dfaFinalsList) {
+            dfa.addFinalState(f);
         }
 
-        DFA dfa = new DFA(new_states);
-        dfa.setInitialState(new_inicial);
-        for (String st : new_finals) {
-            dfa.addFinalState(st);
-        }
-        for (trans tr : new_transitions) {
-            dfa.addTransition(tr.state, tr.input.getValue(), tr.nextState);
+        for (String[] t : dfaTransitionsList) {
+            dfa.addTransition(t[0], t[1].charAt(0), t[2]);
         }
 
         return dfa;
     }
 
-    public Set<Label> getAllLabels(){
-        return this.transitions.stream().filter((x) -> !x.input.isEmptyTransition()).map((x) -> x.input).collect(Collectors.toSet());
-    }
+    // --- MÈTODES PRIVATS (Helpers necessaris) ---
 
-    public class trans {
-        public String state;
-        public Label input;
-        public String nextState;
+    private Set<String> epsilonClosure(Set<String> startStates) {
+        Set<String> closure = new HashSet<>(startStates);
+        Deque<String> stack = new ArrayDeque<>(startStates);
 
-        public trans(String state, Label input, String nextState) {
-            this.state = state;
-            this.input = input;
-            this.nextState = nextState;
-        }
-    }
-
-    public static String[] powerSet(String[] states) {
-
-        int n = states.length;
-        String[] result = new String[1 << n];
-        int index = 0;
-
-        for (int i = 0; i < (1 << n); i++) {
-
-            String subset = "";
-            boolean first = true;
-
-            for (int j = 0; j < n; j++) {
-                if ((i & (1 << j)) != 0) {
-                    if (!first) subset += " ";
-                    subset += states[j];
-                    first = false;
+        while (!stack.isEmpty()) {
+            String u = stack.pop();
+            Set<String> targets = epsilons.get(u);
+            if (targets != null) {
+                for (String v : targets) {
+                    if (closure.add(v)) {
+                        stack.push(v);
+                    }
                 }
             }
-
-            result[index++] = subset;
         }
-
-        return result;
+        return closure;
     }
 
-    /* Recursive function to check if the state given has any epsilon transition
-       and if it does, check those states until no more epsilon transitions can be found*/
-    private void checkEpsilonTransitions(List<trans> transition, Set<String> visited, String Studied_state) {
-        for (trans eps : transition.stream().filter((x) -> x.state.equals(Studied_state) && x.input.isEmptyTransition()).toList()) {
-            visited.add(eps.nextState);
-            checkEpsilonTransitions(transition, visited, eps.nextState);
-        }
+    private String canonName(Set<String> subset) {
+        if (subset.isEmpty()) return "DEAD_STATE";
+        List<String> sorted = new ArrayList<>(subset);
+        Collections.sort(sorted);
+        return "{" + String.join(",", sorted) + "}";
     }
-
-    /* Recursive function to check for the states that are unreaachable deleting them */
-    private void checkUnusedStates(List<trans> transition, String[] states, String inicial_state) {
-        for (String st : states){
-            if ( st.equals(inicial_state)) continue;
-            if ( !transition.stream().anyMatch((x) -> x.nextState.equals(st) && !x.state.equals(st)) ) {
-                transitions.removeIf((x) -> x.state.equals(st));
-                states = Arrays.stream(states).filter(x -> !x.equals(st)).toArray(String[]::new);
-                checkUnusedStates(transition, states, inicial_state);
-                break;
-            }
-        }
-    }                     
 }
