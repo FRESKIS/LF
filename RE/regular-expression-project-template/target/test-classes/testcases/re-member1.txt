@@ -4,4 +4,6 @@
     L= {w | w contains the substring 101 anywhere}. 
 */
 
-/*Write your full name here: ...*/
+(1*0*)*101(1*0*)*
+
+/*Write your full name here: Dario Alexander Plesa Plesa*/
