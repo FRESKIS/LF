@@ -21,9 +21,9 @@ public class Test {
             //"testcases/re1.txt, testcases/input1.txt, testcases/output1.txt",
             //"testcases/re2.txt, testcases/input2.txt, testcases/output2.txt",
             //"testcases/re-member1.txt, testcases/re-member1-input.txt, testcases/re-member1-output.txt",
-            //"testcases/re-member2.txt, testcases/re-member2-input.txt, testcases/re-member2-output.txt",
+            "testcases/re-member2.txt, testcases/re-member2-input.txt, testcases/re-member2-output.txt",
             //"testcases/re-member3.txt, testcases/re-member3-input.txt, testcases/re-member3-output.txt",
-            "testcases/re-member1.txt, testcases/re-member1-input.txt, testcases/re-member1-output.txt",
+            //"testcases/re-member4.txt, testcases/re-member4-input.txt, testcases/re-member4-output.txt",
     })   
     public void testOnDefaultInput(String regexSpecFilePath, String inputFilePath, String outputFilePath) throws IOException, URISyntaxException {
         //Loading files
