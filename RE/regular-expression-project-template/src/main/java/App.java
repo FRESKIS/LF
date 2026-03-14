@@ -1,16 +1,19 @@
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        if (args.length != 2) 
-            throw new IllegalArgumentException("Was expecting two arguments (files)");
-        String REFile = args[0];
+
+        String[] ars = new String[]{System.getProperty("user.dir") + "/RE/regular-expression-project-template/src/test/resources/testcases/re-member4.txt", System.getProperty("user.dir") + "/RE/regular-expression-project-template/src/test/resources/testcases/re-member4-input.txt"};
+        String REFile = ars[0];
         CharStream RESpec = CharStreams.fromFileName(REFile);
 
         REGrammarLexer lexer = new REGrammarLexer(RESpec);
@@ -30,7 +33,7 @@ public class App {
         REBuilder built = new REBuilder();
         RegularExpression re = built.visit(tree);
 
-        String inputFile = args[1];
+        String inputFile = ars[1];
         Path input = Paths.get(inputFile);
         List<String> strings = Files.readAllLines(input);
 
