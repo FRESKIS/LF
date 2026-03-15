@@ -1,86 +1,99 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /*For simplicity, this  class does not allow for the construction of a regular expression
-* that accepts the empty sequence. The reason being that we have no symbol to 
-* denote the empty sequence.  
+* that accepts the empty sequence. The reason being that we have no symbol to
+* denote the empty sequence.
 */
 public class RegularExpression {
 
-    private static int freshId = 0;
+    private static int contadorEstados = 0;
 
-    private final NFA engine;
-    private final String re;
+    private final NFA automata;
 
     public RegularExpression(NFA engine, String re) {
-        this.engine = engine;
-        this.re = re;
+        this.automata = engine;
     }
 
-    /*An empty regular expression*/
+    /*RE vacía*/
     public RegularExpression() {
-        String start = freshState();
-        String end = freshState();
-        NFA automaton = new NFA(new String[]{start, end});
-        automaton.setInitialState(start);
-        this.engine = automaton;
-        this.re = "{}";
+        String inicio = nuevoEstado();
+        String fin = nuevoEstado();
+
+        NFA nfa = new NFA(new String[]{inicio, fin});
+        nfa.setInitialState(inicio);
+
+        this.automata = nfa;
     }
 
-    /* A regular expression consisting of a single character*/
+    /* RE de 1 solo carácter*/
     public RegularExpression(char a) {
-        String start = freshState();
-        String end = freshState();
-        NFA automaton = new NFA(new String[]{start, end});
-        automaton.setInitialState(start);
-        automaton.addFinalState(end);
-        automaton.addTransition(start, a, end);
-        this.engine = automaton;
-        this.re = Character.toString(a);
+        String inicio = nuevoEstado();
+        String fin = nuevoEstado();
+
+        NFA nfa = new NFA(new String[]{inicio, fin});
+        nfa.setInitialState(inicio);
+        nfa.addFinalState(fin);
+        nfa.addTransition(inicio, a, fin);
+
+        this.automata = nfa;
     }
 
     public RegularExpression(char[] chard) {
-        RegularExpression union = buildUnionFromChars(chard);
-        this.engine = union.engine;
-        this.re = union.re;
+        RegularExpression union = crearUnionDeCaracteres(chard);
+        this.automata = union.automata;
     }
 
     public RegularExpression(char ini, char end) {
         if (ini > end) {
-            throw new IllegalArgumentException("Invalid range: " + ini + "-" + end);
+            throw new IllegalArgumentException("Rango incorrecto");
         }
-        char[] chars = new char[end - ini + 1];
-        for (int i = 0; i < chars.length; i++) {
-            chars[i] = (char) (ini + i);
+
+        char[] letras = new char[end - ini + 1];
+        for (int i = 0; i < letras.length; i++) {
+            letras[i] = (char) (ini + i);
         }
-        RegularExpression range = buildUnionFromChars(chars);
-        this.engine = range.engine;
-        this.re = "[" + ini + "-" + end + "]";
+
+        RegularExpression union = crearUnionDeCaracteres(letras);
+        this.automata = union.automata;
     }
 
     public static RegularExpression createUnionRE(RegularExpression left, RegularExpression right) {
-        String start = freshState();
-        String end = freshState();
+        CopiaNFA copiaIzquierda = copiarNFA(left.automata);
+        CopiaNFA copiaDerecha = copiarNFA(right.automata);
 
-        NFACopy leftCopy = copyOf(left.engine);
-        NFACopy rightCopy = copyOf(right.engine);
+        String inicio = nuevoEstado();
+        String fin = nuevoEstado();
 
-        String[] states = concat(new String[]{start, end}, leftCopy.states, rightCopy.states);
-        NFA automaton = new NFA(states);
-        automaton.setInitialState(start);
-        automaton.addFinalState(end);
+        String[] estados = juntarArrays(
+            new String[]{inicio, fin},
+            copiaIzquierda.estados,
+            copiaDerecha.estados
+        );
 
-        installCopy(automaton, leftCopy);
-        installCopy(automaton, rightCopy);
+        NFA nfa = new NFA(estados);
+        nfa.setInitialState(inicio);
+        nfa.addFinalState(fin);
 
-        automaton.addEpsilonTransition(start, leftCopy.initialState);
-        automaton.addEpsilonTransition(start, rightCopy.initialState);
+        ponerTransiciones(nfa, copiaIzquierda);
+        ponerTransiciones(nfa, copiaDerecha);
 
-        for (String finalState : leftCopy.finalStates) {
-            automaton.addEpsilonTransition(finalState, end);
+        nfa.addEpsilonTransition(inicio, copiaIzquierda.inicial);
+        nfa.addEpsilonTransition(inicio, copiaDerecha.inicial);
+
+        for (String estadoFinal : copiaIzquierda.finales) {
+            nfa.addEpsilonTransition(estadoFinal, fin);
         }
-        for (String finalState : rightCopy.finalStates) {
-            automaton.addEpsilonTransition(finalState, end);
+
+        for (String estadoFinal : copiaDerecha.finales) {
+            nfa.addEpsilonTransition(estadoFinal, fin);
         }
 
-        return new RegularExpression(automaton, "(" + left.re + "|" + right.re + ")");
+        return new RegularExpression(nfa, "");
     }
 
     public static RegularExpression createSequentialRE(RegularExpression[] res) {
@@ -88,176 +101,198 @@ public class RegularExpression {
             return new RegularExpression();
         }
 
-        RegularExpression result = res[0];
+        RegularExpression resultado = res[0];
         for (int i = 1; i < res.length; i++) {
-            result = concatenate(result, res[i]);
+            resultado = concatenar(resultado, res[i]);
         }
-        return result;
+
+        return resultado;
     }
 
     public static RegularExpression createStartRE(RegularExpression re) {
-        String start = freshState();
-        String end = freshState();
-        NFACopy copy = copyOf(re.engine);
+        CopiaNFA copia = copiarNFA(re.automata);
 
-        String[] states = concat(new String[]{start, end}, copy.states);
-        NFA automaton = new NFA(states);
-        automaton.setInitialState(start);
-        automaton.addFinalState(end);
+        String inicio = nuevoEstado();
+        String fin = nuevoEstado();
+        String[] estados = juntarArrays(new String[]{inicio, fin}, copia.estados);
 
-        installCopy(automaton, copy);
+        NFA nfa = new NFA(estados);
+        nfa.setInitialState(inicio);
+        nfa.addFinalState(fin);
 
-        automaton.addEpsilonTransition(start, copy.initialState);
-        automaton.addEpsilonTransition(start, end);
-        for (String finalState : copy.finalStates) {
-            automaton.addEpsilonTransition(finalState, copy.initialState);
-            automaton.addEpsilonTransition(finalState, end);
+        ponerTransiciones(nfa, copia);
+
+        nfa.addEpsilonTransition(inicio, copia.inicial);
+        nfa.addEpsilonTransition(inicio, fin);
+
+        for (String estadoFinal : copia.finales) {
+            nfa.addEpsilonTransition(estadoFinal, copia.inicial);
+            nfa.addEpsilonTransition(estadoFinal, fin);
         }
 
-        return new RegularExpression(automaton, "(" + re.re + ")*");
+        return new RegularExpression(nfa, "");
     }
-
 
     public static RegularExpression createUnionRE(RegularExpression[] disj) {
         if (disj == null || disj.length == 0) {
             return new RegularExpression();
         }
 
-        RegularExpression result = disj[0];
+        RegularExpression resultado = disj[0];
         for (int i = 1; i < disj.length; i++) {
-            result = createUnionRE(result, disj[i]);
+            resultado = createUnionRE(resultado, disj[i]);
         }
-        return result;
+
+        return resultado;
     }
 
     public Boolean accept(String string) {
         if (string.isEmpty()) {
             return false;
         }
-        return engine.accept(string);
+        return automata.accept(string);
     }
 
-    private static RegularExpression concatenate(RegularExpression left, RegularExpression right) {
-        NFACopy leftCopy = copyOf(left.engine);
-        NFACopy rightCopy = copyOf(right.engine);
+    private static RegularExpression concatenar(RegularExpression izquierda, RegularExpression derecha) {
+        CopiaNFA copiaIzquierda = copiarNFA(izquierda.automata);
+        CopiaNFA copiaDerecha = copiarNFA(derecha.automata);
 
-        String[] states = concat(leftCopy.states, rightCopy.states);
-        NFA automaton = new NFA(states);
-        automaton.setInitialState(leftCopy.initialState);
+        String[] estados = juntarArrays(copiaIzquierda.estados, copiaDerecha.estados);
 
-        installCopy(automaton, leftCopy);
-        installCopy(automaton, rightCopy);
+        NFA nfa = new NFA(estados);
+        nfa.setInitialState(copiaIzquierda.inicial);
 
-        for (String finalState : leftCopy.finalStates) {
-            automaton.addEpsilonTransition(finalState, rightCopy.initialState);
-        }
-        for (String finalState : rightCopy.finalStates) {
-            automaton.addFinalState(finalState);
+        ponerTransiciones(nfa, copiaIzquierda);
+        ponerTransiciones(nfa, copiaDerecha);
+
+        for (String estadoFinal : copiaIzquierda.finales) {
+            nfa.addEpsilonTransition(estadoFinal, copiaDerecha.inicial);
         }
 
-        return new RegularExpression(automaton, left.re + right.re);
+        for (String estadoFinal : copiaDerecha.finales) {
+            nfa.addFinalState(estadoFinal);
+        }
+
+        return new RegularExpression(nfa, "");
     }
 
-    private static RegularExpression buildUnionFromChars(char[] chars) {
-        if (chars == null || chars.length == 0) {
+    private static RegularExpression crearUnionDeCaracteres(char[] caracteres) {
+        if (caracteres == null || caracteres.length == 0) {
             return new RegularExpression();
         }
 
-        RegularExpression[] expressions = new RegularExpression[chars.length];
-        for (int i = 0; i < chars.length; i++) {
-            expressions[i] = new RegularExpression(chars[i]);
+        RegularExpression[] expresiones = new RegularExpression[caracteres.length];
+        for (int i = 0; i < caracteres.length; i++) {
+            expresiones[i] = new RegularExpression(caracteres[i]);
         }
-        return createUnionRE(expressions);
+
+        return createUnionRE(expresiones);
     }
 
-    private static NFACopy copyOf(NFA source) {
-        java.util.Map<String, String> renaming = new java.util.HashMap<>();
-        java.util.Set<String> originalStates = source.getStates();
-        String[] states = new String[originalStates.size()];
-        int index = 0;
-        for (String state : originalStates) {
-            String renamed = freshState();
-            renaming.put(state, renamed);
-            states[index++] = renamed;
+    private static CopiaNFA copiarNFA(NFA original) {
+        Map<String, String> cambioNombres = new HashMap<>();
+        Set<String> estadosOriginales = original.getStates();
+        String[] estadosNuevos = new String[estadosOriginales.size()];
+
+        int i = 0;
+        for (String estado : estadosOriginales) {
+            String nuevo = nuevoEstado();
+            cambioNombres.put(estado, nuevo);
+            estadosNuevos[i++] = nuevo;
         }
 
-        NFACopy copy = new NFACopy();
-        copy.states = states;
-        copy.initialState = renaming.get(source.getInitialState());
-        copy.finalStates = new java.util.HashSet<>();
-        copy.transitions = new java.util.ArrayList<>();
-        copy.epsilonTransitions = new java.util.ArrayList<>();
+        CopiaNFA copia = new CopiaNFA();
+        copia.estados = estadosNuevos;
+        copia.inicial = cambioNombres.get(original.getInitialState());
+        copia.finales = new HashSet<>();
+        copia.transiciones = new ArrayList<>();
+        copia.transicionesVacias = new ArrayList<>();
 
-        for (String finalState : source.getFinalStates()) {
-            copy.finalStates.add(renaming.get(finalState));
+        for (String estadoFinal : original.getFinalStates()) {
+            copia.finales.add(cambioNombres.get(estadoFinal));
         }
 
-        for (java.util.Map.Entry<String, java.util.Map<Label, java.util.Set<String>>> entry : source.getTransitions().entrySet()) {
-            String from = renaming.get(entry.getKey());
-            for (java.util.Map.Entry<Label, java.util.Set<String>> transition : entry.getValue().entrySet()) {
-                for (String target : transition.getValue()) {
-                    copy.transitions.add(new Transition(from, transition.getKey().getValue(), renaming.get(target)));
+        Map<String, Map<Label, Set<String>>> transiciones = original.getTransitions();
+        for (String origen : transiciones.keySet()) {
+            Map<Label, Set<String>> mapaInterior = transiciones.get(origen);
+            for (Label etiqueta : mapaInterior.keySet()) {
+                for (String destino : mapaInterior.get(etiqueta)) {
+                    copia.transiciones.add(
+                        new Paso(
+                            cambioNombres.get(origen),
+                            etiqueta.getValue(),
+                            cambioNombres.get(destino)
+                        )
+                    );
                 }
             }
         }
 
-        for (java.util.Map.Entry<String, java.util.Set<String>> entry : source.getEpsilonTransitions().entrySet()) {
-            String from = renaming.get(entry.getKey());
-            for (String target : entry.getValue()) {
-                copy.epsilonTransitions.add(new Transition(from, null, renaming.get(target)));
+        Map<String, Set<String>> epsilons = original.getEpsilonTransitions();
+        for (String origen : epsilons.keySet()) {
+            for (String destino : epsilons.get(origen)) {
+                copia.transicionesVacias.add(
+                    new Paso(
+                        cambioNombres.get(origen),
+                        null,
+                        cambioNombres.get(destino)
+                    )
+                );
             }
         }
 
-        return copy;
+        return copia;
     }
 
-    private static void installCopy(NFA target, NFACopy copy) {
-        for (Transition transition : copy.transitions) {
-            target.addTransition(transition.from, transition.symbol, transition.to);
+    private static void ponerTransiciones(NFA destino, CopiaNFA copia) {
+        for (Paso paso : copia.transiciones) {
+            destino.addTransition(paso.origen, paso.simbolo, paso.destino);
         }
-        for (Transition transition : copy.epsilonTransitions) {
-            target.addEpsilonTransition(transition.from, transition.to);
+
+        for (Paso paso : copia.transicionesVacias) {
+            destino.addEpsilonTransition(paso.origen, paso.destino);
         }
     }
 
-    private static String[] concat(String[]... arrays) {
+    private static String[] juntarArrays(String[]... arrays) {
         int total = 0;
         for (String[] array : arrays) {
             total += array.length;
         }
 
-        String[] result = new String[total];
-        int index = 0;
+        String[] resultado = new String[total];
+        int indice = 0;
+
         for (String[] array : arrays) {
-            for (String value : array) {
-                result[index++] = value;
+            for (String valor : array) {
+                resultado[indice++] = valor;
             }
         }
-        return result;
+
+        return resultado;
     }
 
-    private static String freshState() {
-        return "q" + freshId++;
+    private static String nuevoEstado() {
+        return "q" + contadorEstados++;
     }
 
-    private static class Transition {
-        private final String from;
-        private final Character symbol;
-        private final String to;
+    private static class Paso {
+        String origen;
+        Character simbolo;
+        String destino;
 
-        private Transition(String from, Character symbol, String to) {
-            this.from = from;
-            this.symbol = symbol;
-            this.to = to;
+        Paso(String origen, Character simbolo, String destino) {
+            this.origen = origen;
+            this.simbolo = simbolo;
+            this.destino = destino;
         }
     }
 
-    private static class NFACopy {
-        private String[] states;
-        private String initialState;
-        private java.util.Set<String> finalStates;
-        private java.util.List<Transition> transitions;
-        private java.util.List<Transition> epsilonTransitions;
+    private static class CopiaNFA {
+        String[] estados;
+        String inicial;
+        Set<String> finales;
+        List<Paso> transiciones;
+        List<Paso> transicionesVacias;
     }
-
 }
