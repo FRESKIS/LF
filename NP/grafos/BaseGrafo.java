@@ -1,21 +1,14 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+
+
 
 public class BaseGrafo {
-      // Graph is Created Using Edge Class
-    static class Edge {
-        int node, weight;
-
-        Edge(int i, int w) {
-            node = i;
-            weight = w;
-        }
-    }
-
+    
+    public static final int INF = 99999999;
     int V, E;
-    ArrayList<Edge> edge[];
+    int edge[][];
 
     // Constructor to initialize the graph
     public BaseGrafo(String FileName) {
@@ -26,6 +19,7 @@ public class BaseGrafo {
             
             V = dim;
             E = 0;
+            edge = new int[dim][dim];
 
             // 2. Leer cada fila de la matriz
             for (int i = 0; i < dim; i++) {
@@ -37,8 +31,12 @@ public class BaseGrafo {
 
                 for (int j = 0; j < dim; j++) {
                     if (!valores[j].equalsIgnoreCase("I")) {
-                        edge[i].add(new Edge(j, Integer.parseInt(valores[j])));
-                        E++;
+                        edge[i][j] = Integer.parseInt(valores[j]);
+                        if (j > i) {
+                            E++;
+                        }
+                    } else {
+                        edge[i][j] = INF;
                     }
                 }
             }
