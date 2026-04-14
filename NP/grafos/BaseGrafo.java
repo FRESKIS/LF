@@ -1,14 +1,15 @@
+package grafos;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 
-
 public class BaseGrafo {
     
     public static final int INF = 99999999;
-    int V, E;
-    int edge[][];
+    public int V, E;
+    public int edge[][];
 
     // Constructor to initialize the graph
     public BaseGrafo(String FileName) {
