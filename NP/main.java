@@ -1,31 +1,39 @@
+import algoritmos.Backtracking;
 import algoritmos.HeldKarp;
 import grafos.BaseGrafo;
 
 
 public class main {
     public static void main(String[] args) {
-        BaseGrafo grafo = new BaseGrafo("grafo20");
-        HeldKarp algorithm = null;
+        BaseGrafo grafo = new BaseGrafo("grafo1");
+        
+        long startTime;
+        long endTime;
 
-        switch ("3") {
+        switch ("1") {
             case "1":
-                //Backtracking
+                Backtracking algorithm = new Backtracking();
+                System.out.println("---------------");
+                startTime = System.nanoTime();
+                System.out.println(algorithm.solve(grafo));
+                endTime = System.nanoTime();
+                System.out.println((endTime-startTime) / 1_000_000_000.0);
+                System.out.println("---------------");
                 break;
-            case "2":
-                //Branch&Bound
-                break;
+
             case "3":
-                algorithm = new HeldKarp();
+                HeldKarp algorithm1 = new HeldKarp();
+                System.out.println("---------------");
+                startTime = System.nanoTime();
+                System.out.println(algorithm1.solve(grafo));
+                endTime = System.nanoTime();
+                System.out.println((endTime-startTime) / 1_000_000_000.0);
+                System.out.println("---------------");
                 break;
             default:
                 throw new Error("Argumento invalido");
         }
 
-        System.out.println("---------------");
-        long startTime = System.nanoTime();
-        System.out.println(algorithm.solve(grafo));
-        long endTime = System.nanoTime();
-        System.out.println((endTime-startTime) / 1_000_000_000.0);
-        System.out.println("---------------");
+        
     }
 }
