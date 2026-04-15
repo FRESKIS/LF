@@ -6,3 +6,5 @@ I:4:5:0:1
 7:I:5:1:0
 
 /*resultado Backtracking: 15, 0.0035222s, 0 -> 1 -> 3 -> 4 -> 2 -> 0 */
+
+/*resultado Held-Karp: 15, 0.0001234s, 0 -> 1 -> 3 -> 4 -> 2 -> 0, uso de RAM = 2 MB */

@@ -5,12 +5,12 @@ import grafos.BaseGrafo;
 
 public class main {
     public static void main(String[] args) {
-        BaseGrafo grafo = new BaseGrafo("grafo1");
+        BaseGrafo grafo = new BaseGrafo("grafo2");
         
         long startTime;
         long endTime;
 
-        switch ("1") {
+        switch ("3") {
             case "1":
                 Backtracking algorithm = new Backtracking();
                 System.out.println("---------------");

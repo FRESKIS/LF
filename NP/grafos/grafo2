@@ -8,3 +8,5 @@ I:8:2:1:I:0
 
 
 /*resultado Backtracking: 20, 0.003441s, 0 -> 1 -> 5 -> 2 -> 4 -> 3 -> 0 */
+
+/*resultado Held-Karp: 20, 0.0002759s, 0 -> 1 -> 5 -> 2 -> 4 -> 3 -> 0, uso de GPU = 1,7% */
