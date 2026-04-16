@@ -4,7 +4,11 @@ import algoritmos.HeldKarp;
 import grafos.BaseGrafo;
 
 // COMPILAR (desde carpeta NP): javac algoritmos/Backtracking.java algoritmos/HeldKarp.java grafos/BaseGrafo.java main.java
-// EJ. de Ejecución: java main <1/2/3> <grafoX>
+
+// Los parámetros para ejecutarlo serán , un número del 1 al 3 que indicarán el agoritmo a ejecutar 
+// (1: Backtracking, 2: FuerzaBurta, 3:HeldKarp)
+// Y un segundo parámetro que sera el nombre del archivo del grafo a leer (grafo1,grafo2,grafo3,grafo4,grafo10,grafo15,grafo20)
+// EJ. de Ejecución de Held-Karp con grafo 4: java main 3 grafo4 
 
 public class main {
     public static void main(String[] args) {
@@ -16,8 +20,8 @@ public class main {
         }
 
         // Obtener el grafo y algoritmo desde los argumentos
-        String algoritmo = args[0];  // '1' para Backtracking, '3' para HeldKarp
-        String archivoGrafo = args[1];  // 'grafo15', 'grafo1', etc.
+        String algoritmo = args[0];  
+        String archivoGrafo = args[1];  
 
         BaseGrafo grafo = new BaseGrafo(archivoGrafo);
         
