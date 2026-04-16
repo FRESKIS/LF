@@ -22,5 +22,6 @@
 
 
 /*resultado Backtracking: 298, 325.4121999,  0 -> 11 -> 12 -> 1 -> 10 -> 16 -> 15 -> 2 -> 6 -> 4 -> 14 -> 17 -> 9 -> 8 -> 18 -> 13 -> 3 -> 5 -> 7 -> 19 -> 0,uso de RAM = 4MB */
+/*resultado FuerzaBruta: NA, Tiempo estimado: 2.790.720.000s , NA, uso de RAM > 1GB*/
 /*resultado Held-Karp: 298, 1.017083s, 0 -> 11 -> 12 -> 1 -> 10 -> 16 -> 15 -> 2 -> 6 -> 4 -> 14 -> 17 -> 9 -> 8 -> 18 -> 13 -> 3 -> 5 -> 7 -> 19 -> 0, uso de RAM = 160MB */
                         
