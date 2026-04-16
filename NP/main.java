@@ -1,4 +1,5 @@
 import algoritmos.Backtracking;
+import algoritmos.FuerzaBruta;
 import algoritmos.HeldKarp;
 import grafos.BaseGrafo;
 
@@ -23,6 +24,8 @@ public class main {
         long startTime;
         long endTime;
 
+        Runtime runtime = Runtime.getRuntime();
+
         switch (algoritmo) {
             case "1":
                 Backtracking algorithm = new Backtracking();
@@ -32,6 +35,28 @@ public class main {
                 endTime = System.nanoTime();
                 System.out.println("Tiempo: " + (endTime-startTime) / 1_000_000_000.0);
                 System.out.println("---------------");
+                break;
+
+            case "2":
+                FuerzaBruta algoritmoFB = new FuerzaBruta();
+                System.out.println("------- FUERZA BRUTA --------");
+                
+                // Sugerimos al recolector de basura limpiar memoria antes de medir
+                runtime.gc(); 
+                long memoriaAntes = runtime.totalMemory() - runtime.freeMemory();
+                
+                startTime = System.nanoTime();
+                System.out.println("Costo devuelto: " + algoritmoFB.solve(grafo));
+                endTime = System.nanoTime();
+                
+                long memoriaDespues = runtime.totalMemory() - runtime.freeMemory();
+                long memoriaUsadaBytes = memoriaDespues - memoriaAntes;
+                double memoriaUsadaMB = memoriaUsadaBytes / (1024.0 * 1024.0);
+                
+                System.out.println("Tiempo (s): " + (endTime-startTime) / 1_000_000_000.0);
+                // Si sale negativo o muy cercano a 0, la memoria usada fue mínima o el GC actuó durante la ejecución
+                System.out.printf("Memoria usada: %.4f MB\n", Math.max(0, memoriaUsadaMB)); 
+                System.out.println("-----------------------------");
                 break;
 
             case "3":

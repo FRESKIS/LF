@@ -8,5 +8,5 @@ I:2:0:I:7:5:I
 3:4:I:I:5:4:0
 
 /*resultado Backtracking: 23, 0.003416s, 0 -> 3 -> 4 -> 6 -> 1 -> 2 -> 5 -> 0 , uso de RAM < 4MB */
-
+/*resultado FuerzaBruta: 23, 0.0080966, 0 -> 3 -> 4 -> 6 -> 1 -> 2 -> 5 -> 0, uso de RAM < 6MB*/
 /*resultado Held-Karp: 23, 0.0002976s, 0 -> 3 -> 4 -> 6 -> 1 -> 2 -> 5 -> 0, uso de RAM < 2 MB */
