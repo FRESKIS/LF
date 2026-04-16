@@ -20,32 +20,31 @@ public class Backtracking {
     private int V;
 
     public int solve(BaseGrafo G) {
-        // guardamos el numero de nodos del grafo
         this.V = G.V;
 
-        // inicializamos estructuras
-        mejorCoste = BaseGrafo.INF;     // al principio el mejor coste es "infinito"
-        mejorCamino = new int[V + 1];   // +1 porque al final volvemos al nodo inicial
+        // inicialización de estructuras
+        mejorCoste = BaseGrafo.INF;
+        mejorCamino = new int[V + 1];
         visitado = new boolean[V];
         caminoActual = new int[V + 1];
 
-        // empezamos siempre desde el nodo 0
+    
+        Runtime rt = Runtime.getRuntime();
+        long usada = rt.totalMemory() - rt.freeMemory();
+        System.out.println("RAM tras crear estructuras (Backtracking): " + (usada / (1024 * 1024)) + " MB");
+      
+        // empezamos en el nodo 0
         visitado[0] = true;
         caminoActual[0] = 0;
 
-        // llamamos a la funcion recursiva
         backtracking(G, 0, 1, 0);
 
-        // mi sigue valiendo infinito, entonces no habia solucion
         if (mejorCoste >= BaseGrafo.INF) {
             System.out.println("Resultado: El grafo es imposible de resolver (No existe ciclo Hamiltoniano).");
             return -1;
         }
 
-        // mostramos el mejor coste encontrado
-        System.out.println("Mejor coste: " + mejorCoste);
-
-        // mostramos el mejor camino tambien
+        // Mostrar resultados
         System.out.print("Mejor camino: ");
         for (int i = 0; i <= V; i++) {
             System.out.print(mejorCamino[i]);
